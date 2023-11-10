@@ -2,7 +2,13 @@ import logo from './logo.svg';
 import './App.css';
 import CreateUser from './userCreate/CreateUser';
 import UserList from './userCreate/UserList';
-import React, {useState, useRef} from "react";
+import React, {useState, useRef, useMemo} from "react";
+
+
+function countAtiveUser(users){
+    console.log("활성 사용자 수 세는 중....")
+    return users.filter(user=> user.active).length;
+}
 
 function App() {
   const [inputs,setInputs] = useState({
@@ -70,6 +76,7 @@ function App() {
     );
   };
 
+  const count = useMemo(()=>countAtiveUser(users), [users]);
   return(
       <>
           <CreateUser
@@ -79,6 +86,7 @@ function App() {
           onCreate={onCreate}
           />
           <UserList users={users} onRemove={onRemove} onToggle={onToggle}/>
+          <div>활성 사용자 수: {count} </div>
       </>
   );
 }
